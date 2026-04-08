@@ -1,4 +1,5 @@
 import { getAllPosts } from "@/lib/notion";
+import Link from "next/link";
 import type { Metadata } from "next";
 import type { BlogPost } from "@/lib/notion";
 
@@ -22,7 +23,7 @@ function formatDate(dateStr: string): string {
 function PostItem({ post }: { post: BlogPost }) {
   return (
     <li className="post-item">
-      <a href={`/${post.slug}`} className="post-item-inner">
+      <Link href={`/${post.slug}`} className="post-item-inner">
         <div className="post-meta-left">
           {post.tags.length > 0 && (
             <div className="post-tags">
@@ -41,7 +42,7 @@ function PostItem({ post }: { post: BlogPost }) {
         <time className="post-date" dateTime={post.date}>
           {formatDate(post.date)}
         </time>
-      </a>
+      </Link>
     </li>
   );
 }

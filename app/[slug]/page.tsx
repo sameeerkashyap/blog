@@ -1,4 +1,5 @@
 import { getAllPosts, getPostBySlug } from "@/lib/notion";
+import Link from "next/link";
 import { markdownToHtml, extractTableOfContents } from "@/lib/markdown";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
@@ -92,7 +93,7 @@ export default async function PostPage({ params }: Props) {
     <div className="article-layout">
       <article>
         {/* Back link */}
-        <a href="/" className="back-link">
+        <Link href="/" className="back-link">
           <svg
             width="16"
             height="16"
@@ -109,7 +110,7 @@ export default async function PostPage({ params }: Props) {
             />
           </svg>
           All Posts
-        </a>
+        </Link>
 
         {/* Article header */}
         <header className="article-header">
