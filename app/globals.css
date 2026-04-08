@@ -354,7 +354,8 @@ em {
   color: var(--text-primary);
 }
 
-.prose > p:first-child::first-letter {
+.prose > p:first-child:not(:only-child)::first-letter,
+.prose > p:first-child:has(+ p)::first-letter {
   font-family: "Cormorant Garamond", Georgia, serif;
   font-size: 3rem;
   font-weight: 600;
@@ -685,22 +686,26 @@ em {
 
 /* ==================== ARTICLE WITH SIDEBAR ==================== */
 .article-layout {
-  max-width: 1100px;
+  position: relative;
+  max-width: var(--max-width);
   margin: 0 auto;
   padding: 3rem 2rem 6rem;
-  display: grid;
-  grid-template-columns: 1fr 200px;
-  gap: 4rem;
-  align-items: start;
 }
 
 .article-sidebar {
   display: none;
 }
 
-@media (min-width: 1024px) {
+@media (min-width: 1200px) {
   .article-sidebar {
     display: block;
+    position: absolute;
+    left: calc(100% + 3rem);
+    top: 0;
+    width: 180px;
+  }
+  .article-layout {
+    overflow: visible;
   }
 }
 

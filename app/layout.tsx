@@ -66,9 +66,9 @@ function SiteHeader() {
           Research notes on machine learning, mathematics &amp; systems
         </p>
         <nav className="site-nav">
-          <a href="/">Writing</a>
-          <a href="https://github.com/sameerkashyap" target="_blank" rel="noopener noreferrer">GitHub</a>
-          <a href="https://twitter.com/sameerkashyap" target="_blank" rel="noopener noreferrer">Twitter</a>
+          <a href="https://sameeerkashyap.github.io">website</a>
+          <a href="https://github.com/sameerkashyap" target="_blank" rel="noopener noreferrer">github</a>
+          <a href="https://twitter.com/sameerkashyap" target="_blank" rel="noopener noreferrer">x.com</a>
         </nav>
       </div>
     </header>
