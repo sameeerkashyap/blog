@@ -1,36 +1,66 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# blog
 
-## Getting Started
+A statically-exported Next.js blog powered by a Notion database. Write in Notion, deploy to GitHub Pages automatically on every push.
 
-First, run the development server:
+## How it works
+
+- Posts live in a Notion database. The build fetches them at compile time via the Notion API and generates static HTML.
+- Pushing to `main` triggers a GitHub Actions workflow that builds and deploys to GitHub Pages.
+- Without credentials the site falls back to mock data, so local development always works out of the box.
+
+## Notion database setup
+
+Create a Notion database with these properties:
+
+| Property | Type |
+|---|---|
+| Title | Title |
+| Slug | Text (optional — auto-generated from title if omitted) |
+| Summary | Text |
+| Date | Date |
+| Tags | Multi-select |
+| Published | Checkbox |
+
+Share the database with your Notion integration and note the **Database ID** from the URL (`notion.so/.../<database-id>?v=...`).
+
+## Local development
+
+1. Copy the example env file and fill in your credentials:
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+cp .env.local.example .env.local
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+`.env.local`:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```
+NOTION_API_KEY=secret_...
+NOTION_DATABASE_ID=...
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+2. Run the dev server:
 
-## Learn More
+```bash
+npm install
+npm run dev
+```
 
-To learn more about Next.js, take a look at the following resources:
+Open [http://localhost:3000/blog](http://localhost:3000/blog).
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Deployment (GitHub Pages)
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+1. Add two repository secrets under `Settings → Secrets and variables → Actions`:
+   - `NOTION_API_KEY`
+   - `NOTION_DATABASE_ID`
 
-## Deploy on Vercel
+2. Enable GitHub Pages under `Settings → Pages`, set source to **GitHub Actions**.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+3. Push to `main` — the site deploys to `https://<username>.github.io/blog/`.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Stack
+
+- [Next.js 16](https://nextjs.org) — static export (`output: "export"`)
+- [Notion API](https://developers.notion.com) — content source
+- [notion-to-md](https://github.com/souvikinator/notion-to-md) — page content to Markdown
+- [react-markdown](https://github.com/remarkjs/react-markdown) + [rehype](https://github.com/rehypejs/rehype) — Markdown rendering with syntax highlighting and LaTeX
+- GitHub Actions + GitHub Pages — CI/CD
