@@ -102,7 +102,10 @@ function pageToPost(page: PageObjectResponse): BlogPost {
 // ─── Public API ───────────────────────────────────────────────────────────────
 
 export async function getAllPosts(): Promise<BlogPost[]> {
+  console.log("[notion] NOTION_API_KEY set:", !!process.env.NOTION_API_KEY, "| length:", process.env.NOTION_API_KEY?.length ?? 0);
+  console.log("[notion] NOTION_DATABASE_ID set:", !!process.env.NOTION_DATABASE_ID, "| length:", process.env.NOTION_DATABASE_ID?.length ?? 0);
   if (!process.env.NOTION_API_KEY || !process.env.NOTION_DATABASE_ID) {
+    console.log("[notion] Missing credentials — falling back to mock data");
     return getMockPosts();
   }
 
